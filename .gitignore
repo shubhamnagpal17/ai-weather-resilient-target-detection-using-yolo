@@ -1,14 +1,51 @@
+# =========================
+# Python cache
+# =========================
 __pycache__/
 *.pyc
 
-uploads/
-outputs/
-
+# =========================
+# Virtual environment
+# =========================
 venv/
+env/
+.env/
 
-yolov8n.pt
+# =========================
+# Jupyter
+# =========================
+.ipynb_checkpoints/
 
+# =========================
+# Experiments (your personal work)
+# =========================
+experiments/
+
+# =========================
+# YOLO / Model outputs
+# =========================
+runs/
+weights/
+*.pt
+*.pth
+
+# =========================
+# Datasets (optional if large)
+# =========================
+datasets/
+data/
+*.zip
+*.rar
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# OS / IDE junk
+# =========================
+.DS_Store
+Thumbs.db
 .vscode/
 .idea/
-
-.env
