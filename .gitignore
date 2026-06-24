@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+
+uploads/
+outputs/
+
+venv/
+
+yolov8n.pt
+
+.vscode/
+.idea/
+
+.env
