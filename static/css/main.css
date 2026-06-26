@@ -1,0 +1,135 @@
+/* --- CSS Custom Variables (Color Palette & Tokens) --- */
+:root {
+    --bg-darker: #0b0f12;
+    --bg-card: #12161a;
+    --bg-card-hover: #171c21;
+    --border-color: #1e252b;
+    --text-primary: #ffffff;
+    --text-secondary: #7f8c99;
+    --accent-lime: #c3ff12;
+    --accent-lime-dim: rgba(195, 255, 18, 0.15);
+    --font-mono: 'JetBrains Mono', 'Roboto Mono', monospace;
+    --font-sans: 'Space Grotesk', 'Inter', sans-serif;
+}
+
+/* --- Global Reset & Background Matrix Grid --- */
+body {
+    background-color: var(--bg-darker);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    /* Subtle tactical grid background pattern */
+    background-image: 
+        linear-gradient(rgba(30, 37, 43, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30, 37, 43, 0.15) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+/* --- Typography Overrides --- */
+h1, h2, h3, h4, h5, h6, .mono-text {
+    font-family: var(--font-mono);
+    letter-spacing: -0.02em;
+}
+
+/* --- Reusable Tactical Components --- */
+
+/* Navbar Formatting */
+.navbar-tactical {
+    background-color: var(--bg-darker);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+}
+
+.navbar-brand-custom {
+    color: var(--text-primary);
+    font-weight: 700;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.navbar-brand-custom span {
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+.nav-link-custom {
+    color: var(--text-secondary);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.nav-link-custom:hover, .nav-link-custom.active {
+    color: var(--text-primary);
+}
+
+/* Operational Status Badge */
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--accent-lime);
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 8px var(--accent-lime);
+}
+
+/* Premium Lime Tactical Buttons */
+.btn-tactical-primary {
+    background-color: var(--accent-lime);
+    color: #000000;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.85rem;
+    border: 1px solid var(--accent-lime);
+    padding: 0.5rem 1.25rem;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+}
+
+.btn-tactical-primary:hover {
+    background-color: transparent;
+    color: var(--accent-lime);
+    box-shadow: 0 0 12px var(--accent-lime-dim);
+}
+
+.btn-tactical-secondary {
+    background-color: transparent;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.85rem;
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1.25rem;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+}
+
+.btn-tactical-secondary:hover {
+    border-color: var(--text-secondary);
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Zebra / Diagnostic Stripe Background Texture */
+.stripe-texture {
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(30, 37, 43, 0.2),
+        rgba(30, 37, 43, 0.2) 10px,
+        rgba(18, 22, 26, 0.4) 10px,
+        rgba(18, 22, 26, 0.4) 20px
+    );
+}
