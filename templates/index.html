@@ -1,82 +1,71 @@
 {% extends 'base.html' %}
 
-{% block title %}WR-YOLO / Target Detection{% endblock %}
+{% block title %}WR-YOLO / Tactical — Home{% endblock %}
 
 {% block content %}
-<div class="container my-5 py-4">
-    <div class="row mb-5">
-        <div class="col-xl-8 col-lg-10">
-            <p class="text-uppercase mono-text text-secondary mb-3" style="font-size: 0.8rem; letter-spacing: 0.1em;">
-                // Tactical Vision System v1.0
+<section class="hero">
+    <p class="mono-tag hero__tag">// TACTICAL VISION SYSTEM v1.0</p>
+    <h1 class="hero__title">
+        Weather-resilient<br>
+        <span class="hero__title-accent">target detection for harsh conditions.</span>
+    </h1>
+    <p class="hero__desc">
+        An intelligent pre-processing framework that hardens Lite-YOLO against fog,
+        haze, low-light and noise — wrapped in a localhost tactical dashboard.
+    </p>
+    <div class="hero__actions">
+        <a href="{{ url_for('dashboard') }}" class="btn-tactical-primary">Launch Dashboard →</a>
+        <a href="#capabilities" class="btn-tactical-secondary">Capabilities</a>
+    </div>
+</section>
+
+<section class="stats-row">
+    <div class="stat-item">
+        <span class="stat-item__value">4</span>
+        <span class="stat-item__label">PIPELINE STAGES</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-item__value">80+</span>
+        <span class="stat-item__label">YOLO CLASSES</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-item__value">100%</span>
+        <span class="stat-item__label">LOCALHOST</span>
+    </div>
+</section>
+
+<section class="modules-section" id="capabilities">
+    <h2 class="modules-section__title">Pipeline modules</h2>
+    <div class="modules-grid">
+        <article class="module-card">
+            <div class="module-card__num">01</div>
+            <h3 class="module-card__title">Image Loader</h3>
+            <p class="module-card__desc">
+                Validates and decodes uploaded JPG/PNG or browser-captured webcam frames.
             </p>
-            <h1 class="display-4 fw-bold text-white mb-4" style="line-height: 1.1;">
-                Weather-resilient <br>
-                <span style="color: var(--accent-lime);">target detection</span> <br>
-                for harsh conditions.
-            </h1>
-            <p class="text-secondary lead fs-6 mb-4 col-md-9" style="line-height: 1.6; max-width: 500px;">
-                An intelligent pre-processing framework that hardens Lite-YOLO against fog, haze, low-light and noise — wrapped in a localhost tactical dashboard.
+        </article>
+        <article class="module-card">
+            <div class="module-card__num">02</div>
+            <h3 class="module-card__title">Weather Enhancer</h3>
+            <p class="module-card__desc">
+                Gamma correction, CLAHE on LAB L-channel and adaptive brightness recovery.
             </p>
-            <div class="d-flex gap-3 align-items-center">
-                <a href="/dashboard" class="btn btn-tactical-primary px-4 py-2">
-                    Launch Dashboard &rarr;
-                </a>
-                <a href="#capabilities" class="btn btn-tactical-secondary px-4 py-2">
-                    Capabilities
-                </a>
-            </div>
-        </div>
+        </article>
+        <article class="module-card">
+            <div class="module-card__num">03</div>
+            <h3 class="module-card__title">Denoiser</h3>
+            <p class="module-card__desc">
+                Fast Non-Local Means colour denoising with optional Gaussian smoothing.
+                <em style="color:var(--text-dim)"> (optional module)</em>
+            </p>
+        </article>
+        <article class="module-card">
+            <div class="module-card__num">04</div>
+            <h3 class="module-card__title">Lite-YOLO Detector</h3>
+            <p class="module-card__desc">
+                Ultralytics YOLOv8 nano — letterbox resize, inference, bounding-box annotation.
+            </p>
+        </article>
     </div>
-
-    <div class="row g-4 mb-5 pt-3" id="capabilities">
-        <div class="col-6 col-md-3">
-            <div class="border-top border-secondary pt-3">
-                <h2 class="fw-bold mono-text text-white mb-1">4</h2>
-                <p class="text-uppercase text-secondary small mono-text m-0" style="font-size: 0.65rem; letter-spacing: 0.05em;">Pipeline Stages</p>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="border-top border-secondary pt-3">
-                <h2 class="fw-bold mono-text text-white mb-1">80+</h2>
-                <p class="text-uppercase text-secondary small mono-text m-0" style="font-size: 0.65rem; letter-spacing: 0.05em;">YOLO Classes</p>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="border-top border-secondary pt-3">
-                <h2 class="fw-bold mono-text text-white mb-1">100%</h2>
-                <p class="text-uppercase text-secondary small mono-text m-0" style="font-size: 0.65rem; letter-spacing: 0.05em;">Localhost</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mt-5 pt-4">
-        <div class="col-12">
-            <h3 class="h5 fw-bold text-white mb-4">Pipeline modules</h3>
-        </div>
-    </div>
-
-    <div class="row g-3">
-        <div class="col-md-4">
-            <div class="p-4 rounded-1 h-100" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
-                <span class="mono-text text-secondary d-block mb-3" style="font-size: 0.75rem;">01</span>
-                <h4 class="h6 fw-bold text-white mb-2 mono-text">Image Loader</h4>
-                <p class="text-secondary small m-0" style="line-height: 1.5;">Validates and decodes uploaded JPG/PNG or browser-captured webcam feeds.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="p-4 rounded-1 h-100" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
-                <span class="mono-text text-secondary d-block mb-3" style="font-size: 0.75rem;">02</span>
-                <h4 class="h6 fw-bold text-white mb-2 mono-text">Weather Enhancer</h4>
-                <p class="text-secondary small m-0" style="line-height: 1.5;">Gamma correction, CLAHE on LAB L-channel and adaptive brightness recovery.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="p-4 rounded-1 h-100" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
-                <span class="mono-text text-secondary d-block mb-3" style="font-size: 0.75rem;">03</span>
-                <h4 class="h6 fw-bold text-white mb-2 mono-text">Denoiser</h4>
-                <p class="text-secondary small m-0" style="line-height: 1.5;">Fast Non-Local Means colour denoising with optional Gaussian smoothing.</p>
-            </div>
-        </div>
-    </div>
-</div>
+</section>
 {% endblock %}

@@ -1,144 +1,111 @@
 {% extends 'base.html' %}
 
-{% block title %}Tactical Detection Console - WR-YOLO{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
-{% endblock %}
+{% block title %}WR-YOLO / Tactical — Dashboard{% endblock %}
 
 {% block content %}
-<div class="container-fluid px-4 my-4">
-    
-    <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="dashboard">
+
+    <div class="dashboard__header">
         <div>
-            <p class="text-uppercase mono-text text-secondary mb-1" style="font-size: 0.75rem; letter-spacing: 0.1em;">
-                // Live Ops . Localhost
-            </p>
-            <h1 class="h3 fw-bold text-white m-0">Tactical Detection Console</h1>
+            <p class="mono-tag">// LIVE OPS — LOCALHOST</p>
+            <h1 class="dashboard__title">Tactical Detection Console</h1>
         </div>
-        <div class="status-indicator mono-text" style="font-size: 0.75rem;">
-            {% if detections %}
-                <span class="status-dot"></span> Done &middot; {{ detections|length }} detections
-            {% else %}
-                <span class="status-dot" style="background-color: #536271; box-shadow: none;"></span> Idle
-            {% endif %}
+        <div class="dashboard__status" id="runStatus">
+            <span class="dashboard__status-dot"></span>
+            <span id="runStatusText">Idle</span>
         </div>
     </div>
 
-    <div class="console-header-card mb-4">
-        <div class="row align-items-center g-3">
-            <div class="col-md-6 d-flex flex-wrap gap-2">
-                <button class="btn btn-tactical-primary d-flex align-items-center gap-2 px-3" id="uploadBtn">
-                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                    </svg>
-                    Upload Image
-                </button>
-                <button class="btn btn-tactical-secondary d-flex align-items-center gap-2 px-3" id="webcamBtn">
-                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                        <path d="M2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2zm.5 2a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm9 2.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z"/>
-                    </svg>
-                    Webcam
-                </button>
-                <input type="file" id="imageFileInput" accept="image/*" class="d-none">
-            </div>
-            <div class="col-md-6 text-md-end mono-text text-secondary" style="font-size: 0.75rem;">
-                Detections: <span class="text-white fw-bold me-3" id="detectionCount">{{ detections|length if detections else 0 }}</span> 
-                Input: <span class="text-white fw-bold" id="inputResolution">{{ resolution if resolution else '-' }}</span>
-            </div>
+    <div class="control-bar">
+        <div class="control-bar__actions">
+            <input type="file" id="fileInput" class="visually-hidden"
+                   accept="image/jpeg,image/jpg,image/png">
+            <button type="button" class="btn-tactical-primary" id="btnUpload">
+                ↑ Upload Image
+            </button>
+            <button type="button" class="btn-tactical-secondary" id="btnWebcam">
+                ⊙ Webcam
+            </button>
+        </div>
+        <div class="control-bar__meta">
+            <span id="metaDetections">Detections: 0</span>
+            <span id="metaInput">Input: —</span>
         </div>
     </div>
 
-    <div class="row g-3 mb-4">
-        <div class="col-lg-4">
-            <div class="pipeline-pane">
-                <div class="pane-meta">
-                    <span class="pane-label-primary" style="color: var(--text-primary);">Original</span>
-                    <span class="pane-label-secondary">Input</span>
-                </div>
-                {% if original_image %}
-                    <img src="{{ original_image }}" class="viewport-display" alt="Original tactical feed">
-                {% else %}
-                    <div class="viewport-frame stripe-texture">
-                        <p>No image yet.<br>Upload or capture to begin.</p>
-                    </div>
-                {% endif %}
+    <div class="panel-grid">
+        <div class="image-panel">
+            <div class="image-panel__header">
+                <span class="image-panel__label">ORIGINAL</span>
+                <span class="image-panel__sublabel">Input</span>
+            </div>
+            <div class="image-panel__body" id="panelOriginal">
+                <p class="image-panel__placeholder">No image yet.<br>Upload or capture to begin.</p>
             </div>
         </div>
-
-        <div class="col-lg-4">
-            <div class="pipeline-pane">
-                <div class="pane-meta">
-                    <span class="pane-label-primary">Pre-processed</span>
-                    <span class="pane-label-secondary">Weather-resilient</span>
-                </div>
-                {% if processed_image %}
-                    <img src="{{ processed_image }}" class="viewport-display" alt="Pre-processed weather stabilized layer">
-                {% else %}
-                    <div class="viewport-frame stripe-texture"></div>
-                {% endif %}
+        <div class="image-panel">
+            <div class="image-panel__header">
+                <span class="image-panel__label">PRE-PROCESSED</span>
+                <span class="image-panel__sublabel">Weather-resilient</span>
+            </div>
+            <div class="image-panel__body" id="panelPreprocessed">
+                <p class="image-panel__placeholder">Awaiting input.</p>
             </div>
         </div>
-
-        <div class="col-lg-4">
-            <div class="pipeline-pane">
-                <div class="pane-meta">
-                    <span class="pane-label-primary">Detection</span>
-                    <span class="pane-label-secondary">Lite-YOLO output</span>
-                </div>
-                {% if detection_image %}
-                    <img src="{{ detection_image }}" class="viewport-display" alt="Target structural tracking frame">
-                {% else %}
-                    <div class="viewport-frame stripe-texture"></div>
-                {% endif %}
+        <div class="image-panel">
+            <div class="image-panel__header">
+                <span class="image-panel__label">DETECTION</span>
+                <span class="image-panel__sublabel">Lite-YOLO output</span>
+            </div>
+            <div class="image-panel__body" id="panelDetection">
+                <p class="image-panel__placeholder">Awaiting input.</p>
             </div>
         </div>
     </div>
 
-    <div class="pipeline-pane" style="overflow-x: auto;">
-        <div class="pane-meta m-0 pb-3">
-            <span class="pane-label-primary" style="color: var(--text-primary);">Detection Table</span>
-            <span class="pane-label-secondary" style="color: var(--accent-lime);">{{ detections|length if detections else 0 }} objects</span>
+    <div class="table-panel">
+        <div class="table-panel__header">
+            <span class="table-panel__title">Detection Table</span>
+            <span class="table-panel__count" id="tableCount">0 objects</span>
         </div>
-        
-        <table class="table table-tactical custom-table-dark align-middle">
+        <table class="detection-table">
             <thead>
                 <tr>
-                    <th style="width: 60px;">#</th>
-                    <th>Object</th>
-                    <th style="width: 200px;">Confidence</th>
-                    <th>Bounding Box (X1, Y1, X2, Y2)</th>
+                    <th>#</th>
+                    <th>OBJECT</th>
+                    <th>CONFIDENCE</th>
+                    <th>BOUNDING BOX (X1, Y1, X2, Y2)</th>
                 </tr>
             </thead>
-            <tbody>
-                {% if detections %}
-                    {% for item in detections %}
-                    <tr>
-                        <td class="text-secondary">{{ "%02d" | format(loop.index) }}</td>
-                        <td class="text-white fw-bold">{{ item.object }}</td>
-                        <td>
-                            <div class="confidence-wrapper">
-                                <div class="confidence-bar-bg">
-                                    <div class="confidence-bar-fill" style="--confidence-level: {{ item.confidence }}%; width: var(--confidence-level);"></div>
-                                </div>
-                                <span class="confidence-metrics-value">{{ item.confidence }}%</span>
-                            </div>
-                        </td>
-                        <td class="text-secondary">[{{ item.bbox | join(', ') }}]</td>
-                    </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="4" class="text-center text-secondary py-4 font-mono" style="font-size: 0.75rem;">
-                            No detections yet.
-                        </td>
-                    </tr>
-                {% endif %}
+            <tbody id="detectionTableBody">
+                <tr class="empty-row">
+                    <td colspan="4">No detections yet.</td>
+                </tr>
             </tbody>
         </table>
     </div>
 
 </div>
+
+<!-- Webcam capture overlay -->
+<div class="webcam-overlay" id="webcamOverlay">
+    <div class="webcam-modal">
+        <video id="webcamVideo" autoplay playsinline muted></video>
+        <div class="webcam-modal__actions">
+            <button type="button" class="btn-tactical-secondary" id="btnWebcamCancel">Cancel</button>
+            <button type="button" class="btn-tactical-primary" id="btnWebcamCapture">Capture Frame</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<footer class="dashboard-footer container">
+    <span>Lite-YOLO + Weather-Resilient Pre-processing — localhost build</span>
+    <span>Python · Flask · OpenCV · Ultralytics</span>
+</footer>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 {% endblock %}
