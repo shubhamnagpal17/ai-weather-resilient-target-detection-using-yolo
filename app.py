@@ -16,7 +16,7 @@ app = Flask(__name__)
 OUTPUT_DIR = Path("outputs")
 OUTPUT_DIR.mkdir(exist_ok=True)
 
-pipeline = PreprocessingPipeline(apply_gaussian=False)
+pipeline = PreprocessingPipeline()
 detector = yolomodel(model_path="yolov8n.pt", conf=0.25)
 
 

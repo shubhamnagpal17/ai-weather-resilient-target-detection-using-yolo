@@ -4,23 +4,18 @@ from preprocessing.clahe import ImageEnhancer
 from preprocessing.letterbox import Letterbox
 from preprocessing.normalize import Normalizer
 from preprocessing.weather_enhancer import WeatherEnhancer
+from preprocessing.denoise import Denoiser
+from preprocessing.adaptive_params_calc import AdaptiveParameterCalculator
 
 
 class PreprocessingPipeline:
-    """
-    Default pipeline (per project spec):
-        CLAHE → Gamma Correction → (optional) Gaussian Blur→ Normalization → Letterbox 640×640
-
-    Denoiser is kept as an optional module (preprocessing/denoise.py)
-    but is NOT part of this default chain.
-    """
-
-    def __init__(self, apply_gaussian=False):
+    def __init__(self):
+        self.adaptiveparams= AdaptiveParameterCalculator()
         self.enhancer = ImageEnhancer()
         self.weather = WeatherEnhancer()
+        self.denoiser= Denoiser()
         self.normalizer = Normalizer()
         self.letterboxer = Letterbox(size=640)
-        self.apply_gaussian = apply_gaussian
 
     def process(self, image):
         """
@@ -29,14 +24,30 @@ class PreprocessingPipeline:
             letterboxed   — 640×640 YOLO input
             meta          — letterbox padding/ratio for bbox remapping
         """
-        image = self.enhancer.apply_clahe(image)
-        image = self.weather.improve_visibility(image)
+        #calculating parameters
+        config_params=self.adaptiveparams.calculate_params(image)
 
-        if self.apply_gaussian:
-            image = cv2.GaussianBlur(image, (5, 5), 0)
+        # 1. CLAHE step
+        if config_params["apply_clahe"]:
+            self.enhancer.set_clip_limit(config_params["clip_limit"])
+            image = self.enhancer.apply_clahe(image)
 
-        image = self.normalizer.normalize(image)
+        # 2. Gamma Correction / Visibility Improve step
+        if config_params["apply_gamma"]:
+            image = self.weather.improve_visibility(image,gamma=config_params["gamma_value"])
+
+        # 3. Denoising step
+        if config_params["apply_denoise"]:
+            self.denoiser.h=config_params["denoise_h"]
+            image = self.denoiser.remove_noise(image)
+
+        # Enhanced image for dashboard display
         preprocessed = image.copy()
 
+        # 4. Letterbox resize
         letterboxed, meta = self.letterboxer.resize(image)
+
+        # 5. Normalize final model input
+        letterboxed = self.normalizer.normalize(letterboxed)
+
         return preprocessed, letterboxed, meta
