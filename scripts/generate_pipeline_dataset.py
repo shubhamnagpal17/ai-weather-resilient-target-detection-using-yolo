@@ -4,8 +4,8 @@ import cv2
 from preprocessing.pipeline import PreprocessingPipeline
 
 
-INPUT_DIR = Path("dataset/images/val")
-OUTPUT_DIR = Path("dataset/images/val_adaptive_pipeline")
+INPUT_DIR = Path("datasets/BDD100K/images/val")
+OUTPUT_DIR = Path("datasets/BDD100K/images/val_pipeline")
 
 VALID_EXTENSIONS = {".jpg", ".jpeg", ".png"}
 

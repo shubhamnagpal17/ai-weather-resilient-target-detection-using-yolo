@@ -5,10 +5,13 @@ from preprocessing.clahe import ImageEnhancer
 from preprocessing.adaptive_params_calc import AdaptiveParameterCalculator
 
 
-INPUT_DIR = Path("dataset/images/val")
-OUTPUT_DIR = Path("dataset/images/val_adaptive_clahe")
+INPUT_DIR = Path("datasets/BDD100K/images/val")
+OUTPUT_DIR = Path("datasets/BDD100K/images/val_clahe")
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+print(f"Input folder: {INPUT_DIR.resolve()}")
+print(f"Input exists: {INPUT_DIR.exists()}")
 
 enhancer = ImageEnhancer()
 adaptive_calculator = AdaptiveParameterCalculator()
