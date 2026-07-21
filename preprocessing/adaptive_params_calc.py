@@ -59,13 +59,13 @@ class AdaptiveParameterCalculator:
         smooth = cv2.GaussianBlur(gray,(3, 3),0)
         noise = (gray.astype(np.float32)- smooth.astype(np.float32))
         noise_std = np.std(noise)
-        if noise_std < 10:
+        if noise_std < 5:
             return {
                 "apply_denoise": False,
                 "denoise_h": 0.0
             }
-        clamped_noise_std = np.clip(noise_std,10,30)
-        denoise_h = 10.0 + ((clamped_noise_std - 10.0)/ (30.0 - 10.0)) * (20.0 - 10.0)
+        clamped_noise_std = np.clip(noise_std,5,20)
+        denoise_h = 10.0 + ((clamped_noise_std - 5.0)/ (20.0-5.0)) * (20.0 - 10.0)
 
         return {
             "apply_denoise": True,
