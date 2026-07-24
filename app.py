@@ -7,7 +7,7 @@ import cv2
 from flask import Flask, jsonify, render_template, request
 
 from input.image_loader import ImageLoader
-from model.yolo import yolomodel
+from models.yolo import yolomodel
 from preprocessing.letterbox import Letterbox
 from preprocessing.pipeline import PreprocessingPipeline
 
