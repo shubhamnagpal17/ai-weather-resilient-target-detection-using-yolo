@@ -10,12 +10,8 @@ CLASS_MAP = {
     "rider": 1,
     "car": 2,
     "truck": 3,
-    "bus": 4,
-    "train": 5,
-    "motor": 6,
-    "bike": 7,
-    "traffic light": 8,
-    "traffic sign": 9,
+    "train": 4,
+    "bike": 5,
 }
 
 # -----------------------------

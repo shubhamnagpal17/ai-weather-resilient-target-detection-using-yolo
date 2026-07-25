@@ -1,8 +1,8 @@
-path: datasets/BDD100K
 
+path: datasets/BDD100K
 train: splits/train.txt
 val: splits/val.txt
-test: splits/test.txt
+test: images/test_clahe_denoise
 
 names:
   0: person

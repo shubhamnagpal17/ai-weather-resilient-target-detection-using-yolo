@@ -1,6 +1,6 @@
 def make_yaml(variant_name):
     content = f"""
-path: /datasets/BDD100K
+path: datasets/BDD100K
 train: splits/train.txt
 val: splits/val.txt
 test: images/{variant_name}
@@ -10,12 +10,8 @@ names:
   1: rider
   2: car
   3: truck
-  4: bus
-  5: train
-  6: motor
-  7: bike
-  8: traffic light
-  9: traffic sign
+  4: train
+  5: bike
 """
     yaml_path = f"configs/data_{variant_name}.yaml"
     with open(yaml_path, "w") as f:
