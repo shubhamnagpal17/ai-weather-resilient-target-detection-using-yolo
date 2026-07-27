@@ -8,7 +8,7 @@ from ultralytics import YOLO
 # Configuration
 # ======================================================
 
-MODEL_PATH = "best.pt"
+MODEL_PATH = "models/best.pt"
 
 PROJECT = "test_results"
 
