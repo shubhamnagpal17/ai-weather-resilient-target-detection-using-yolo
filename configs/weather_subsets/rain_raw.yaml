@@ -1,0 +1,13 @@
+path: .
+
+train: datasets/BDD100K/splits/train.txt
+val: datasets/BDD100K/splits/val.txt
+test: datasets/BDD100K/weather_subsets/rain_raw.txt
+
+names:
+  0: person
+  1: rider
+  2: car
+  3: truck
+  4: train
+  5: bike
