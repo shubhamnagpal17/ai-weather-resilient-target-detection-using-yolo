@@ -18,5 +18,5 @@ names:
         f.write(content)
     return yaml_path
 
-variant_names = ["test_clahe", "test_gamma", "test_denoise", "test_full_pipeline"]
+variant_names = ["test_clahe", "test_gamma", "test_denoise", "test_full_pipeline","test_clahe_denoise","test_gamma_denoise","test_clahe_gamma"]
 variant_yamls = {name: make_yaml(name) for name in variant_names}
