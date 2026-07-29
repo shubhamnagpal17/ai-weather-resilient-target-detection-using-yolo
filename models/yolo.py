@@ -2,7 +2,7 @@ from ultralytics import YOLO
 import cv2
 
 class yolomodel:
-    def __init__(self, model_path="yolov8n.pt", conf=0.6):
+    def __init__(self, model_path="models/best_pipelined.pt", conf=0.6):
         self.model_path = model_path
         self.model = YOLO(model_path)
         self.conf = conf
