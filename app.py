@@ -17,7 +17,7 @@ OUTPUT_DIR = Path("outputs")
 OUTPUT_DIR.mkdir(exist_ok=True)
 
 pipeline = PreprocessingPipeline()
-detector = yolomodel(model_path="yolov8n.pt", conf=0.25)
+detector = yolomodel(model_path="models/best_pipelined.pt", conf=0.25)
 
 
 # ── Helpers ───────────────────────────────────────────────────────
